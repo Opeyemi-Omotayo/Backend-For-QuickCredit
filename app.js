@@ -1,20 +1,55 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 const SignupRoutes = require('./routes/SignUp-routes');
+const ErrorMsg = require('./models/Error');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/api', SignupRoutes);
+app.use('/files/documents', express.static(path.join('files', 'documents')));
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+  next();
+});
+
+app.use('/api/users', SignupRoutes);
+
+
+app.use((req, res, next) => {
+  const error = new ErrorMsg('Could not find this route.', 404);
+  throw error;
+});
+
+app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, err => {
+      console.log(err);
+    });
+  }
+  if (res.headerSent) {
+    return next(error);
+  }
+  res.status(error.code || 500);
+  res.json({ message: error.message || 'An unknown error occurred!' });
+});
 
 
 mongoose.set('strictQuery', true);
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.h80nr7g.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ac-nimymu8-shard-00-00.h80nr7g.mongodb.net:27017,ac-nimymu8-shard-00-01.h80nr7g.mongodb.net:27017,ac-nimymu8-shard-00-02.h80nr7g.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=atlas-1195zl-shard-0&authSource=admin&retryWrites=true&w=majority`,
     {useNewUrlParser: true} 
   )
   .then(() => {
