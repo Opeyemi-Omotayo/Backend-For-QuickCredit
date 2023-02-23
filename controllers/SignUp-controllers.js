@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
-const SignUp = require('../models/Signup');
+const User = require('../models/user');
 const ErrorMsg = require('../models/Error');
 
 const SignupFn = async(req, res, next) => {
@@ -17,7 +17,7 @@ const SignupFn = async(req, res, next) => {
 
     let existingUser;
   try {
-    existingUser = await SignUp.findOne({ email: email });
+    existingUser = await User.findOne({ email: email });
   } catch (err) {
     const error = new ErrorMsg(
       'Signing up failed, please try again later.',
@@ -45,7 +45,7 @@ const SignupFn = async(req, res, next) => {
     return next(error);
   }
 
-  const createdUser = new SignUp({
+  const createdUser = new User({
    username,
     name,
     email,
