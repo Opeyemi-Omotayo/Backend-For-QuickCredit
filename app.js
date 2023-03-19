@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const SignupRoutes = require('./routes/SignUp-routes');
 const LoginRoutes = require('./routes/Login-routes');
+const LoanRoutes = require("./routes/Loan-routes");
 const ErrorMsg = require('./models/Error');
 
 const app = express();
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 app.use('/api/users', SignupRoutes);
 app.use('/api/users', LoginRoutes );
+app.use('/app/users', LoanRoutes);
 
 
 app.use((req, res, next) => {

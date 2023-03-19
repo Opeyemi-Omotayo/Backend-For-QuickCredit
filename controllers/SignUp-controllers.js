@@ -9,13 +9,13 @@ const SignupFn = async(req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new HttpError('Invalid inputs passed, please check your data.', 422)
+      new ErrorMsg('Invalid inputs passed, please check your data.', 422)
     );
   }
 
-    const {username, name, email, number, password, image } = req.body;
+    const {username, name, email, number, password, image , role} = req.body;
 
-    let existingUser;
+  let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
   } catch (err) {
@@ -50,8 +50,9 @@ const SignupFn = async(req, res, next) => {
     name,
     email,
     number,
-    image,
-    password: hashedPassword
+    image: req.file.path,
+    password: hashedPassword,
+    role
   });
 
   try {
@@ -69,7 +70,7 @@ const SignupFn = async(req, res, next) => {
     token = jwt.sign(
       { userId: createdUser.id, email: createdUser.email },
       process.env.JWT_KEY,
-      { expiresIn: '3h' }
+      { expiresIn: '1h' }
     );
   } catch (err) {
     const error = new ErrorMsg(
