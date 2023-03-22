@@ -19,4 +19,6 @@ router.post(
   SignupControllers.SignupFn
 );
 
+//router.post("/loanrequests", SignupControllers.loanRequest);
+
 module.exports = router;

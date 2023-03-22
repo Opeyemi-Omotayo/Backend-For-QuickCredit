@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 app.use('/api/users', SignupRoutes);
 app.use('/api/users', LoginRoutes );
-app.use('/app/users', LoanRoutes);
+app.use('/api/users', LoanRoutes);
 
 
 app.use((req, res, next) => {

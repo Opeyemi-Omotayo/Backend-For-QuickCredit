@@ -1,14 +1,14 @@
 const Loan = require('../models/loan');
+const ErrorMsg = require("../models/Error");
 
 const loanRequest = async(req, res, next) => {
-    const { loan_amount, duration, repayable_amount, created_at, image, status } = req.body;
+    const { loan_amount, duration, repayable_amount, created_at, status } = req.body;
 
     const createdLoanRequest = new Loan({
         loan_amount,
          duration,
          repayable_amount,
          created_at,
-         image: req.file.path,
          status
        });
 
@@ -16,7 +16,7 @@ const loanRequest = async(req, res, next) => {
         await createdLoanRequest.save();
       } catch (err) {
         const error = new ErrorMsg(
-          'Signing up failed, please try again later.',
+          'Loan Request failed, please try again later.',
           500
         );
         return next(error);

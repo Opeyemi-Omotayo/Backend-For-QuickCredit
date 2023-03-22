@@ -3,6 +3,6 @@ const LoanControllers = require("../controllers/Loan-controllers");
 
 const router = express.Router();
 
-router.post('/loan-requests', LoanControllers.loanRequest);
+router.post('/loanrequests', LoanControllers.loanRequest);
 
 module.exports = router;
