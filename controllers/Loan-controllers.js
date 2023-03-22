@@ -25,4 +25,19 @@ const loanRequest = async(req, res, next) => {
       res.status(201).json({ loanId: createdLoanRequest.id, status: createdLoanRequest.status });
 }
 
+const getAllLoanRequest = async (req, res, next) => {
+  let users;
+  try {
+    users = await Loan.find({});
+  } catch (err) {
+    const error = new ErrorMsg(
+      'Fetching Loan Requests failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+  res.json({ users: users.map(user => user.toObject({ getters: true })) });
+};
+
 exports.loanRequest = loanRequest;
+exports.getAllLoanRequest = getAllLoanRequest;

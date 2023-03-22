@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post('/loanrequests', LoanControllers.loanRequest);
 
+router.get("/getAllLoanRequests", LoanControllers.getAllLoanRequest);
+
 module.exports = router;
