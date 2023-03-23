@@ -7,4 +7,6 @@ router.post('/loanrequests', LoanControllers.loanRequest);
 
 router.get("/getAllLoanRequests", LoanControllers.getAllLoanRequest);
 
+router.patch("/loanrequest/:rid", LoanControllers.updateStatus);
+
 module.exports = router;
