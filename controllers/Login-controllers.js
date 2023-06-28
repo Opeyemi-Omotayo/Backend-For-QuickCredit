@@ -28,15 +28,8 @@ const loginFn = async (req, res, next) => {
   }
 
   let isValidPassword = false;
- // try {
-    isValidPassword = await bcrypt.compare(password, existingUser.password);
-  // } catch (err) {
-  //   const error = new ErrorMsg(
-  //     "Could not log you in, please check your credentials and try again.",
-  //     500
-  //   );
-  //   return next(error);
-  // }
+
+  isValidPassword = await bcrypt.compare(password, existingUser.password);
 
   if (!isValidPassword) {
     const error = new ErrorMsg(
@@ -49,7 +42,12 @@ const loginFn = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: existingUser.id, username: existingUser.username, email: existingUser.email, role: existingUser.role },
+      {
+        userId: existingUser.id,
+        username: existingUser.username,
+        email: existingUser.email,
+        role: existingUser.role
+      },
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
@@ -62,7 +60,8 @@ const loginFn = async (req, res, next) => {
   }
 
   res.json({
-    token: token
+    userId: existingUser.id,
+    token: token,
   });
 };
 

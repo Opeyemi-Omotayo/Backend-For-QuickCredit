@@ -50,7 +50,7 @@ const SignupFn = async(req, res, next) => {
     name,
     email,
     number,
-    image: req.file.path,
+    image,
     password: hashedPassword,
     role
   });
@@ -59,7 +59,7 @@ const SignupFn = async(req, res, next) => {
     await createdUser.save();
   } catch (err) {
     const error = new ErrorMsg(
-      'Signing up failed, please try again later.',
+      'Signing up failed,please try again later.',
       500
     );
     return next(error);
@@ -70,7 +70,7 @@ const SignupFn = async(req, res, next) => {
     token = jwt.sign(
       { userId: createdUser.id, email: createdUser.email },
       process.env.JWT_KEY,
-      { expiresIn: '1h' }
+      { expiresIn: '5h' }
     );
   } catch (err) {
     const error = new ErrorMsg(
