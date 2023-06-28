@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "name": "backend-for-quick-credit",
+    "builds": [
+      { "src": "app.js", "use": "@vercel/node" }
+    ],
+    "routes": [
+      { "src": "/(.*)", "dest": "/app.js" }
+    ]
+  }
