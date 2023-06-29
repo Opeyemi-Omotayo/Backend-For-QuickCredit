@@ -102,7 +102,6 @@ const getUserLoanId = async (req, res, next) => {
 
   let retrievedLoanRequest;
   try {
-    //user = await Loan.find((user) => user.userId === userId);
     retrievedLoanRequest = await Loan.findById(userId);
   } catch (err) {
     const error = new ErrorMsg(
