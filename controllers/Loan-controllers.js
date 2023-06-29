@@ -33,9 +33,9 @@ const loanRequest = async (req, res, next) => {
 };
 
 const getAllLoanRequest = async (req, res, next) => {
-  let users;
+  let loans;
   try {
-    users = await Loan.find({}, "-__v").where('status').equals('pending').sort({'created_at' : -1});
+    loans = await Loan.find({}, "-__v").where('status').equals('pending').sort({'created_at' : -1});
   } catch (err) {
     const error = new ErrorMsg(
       "Fetching Loan Requests failed, please try again later.",
@@ -43,7 +43,7 @@ const getAllLoanRequest = async (req, res, next) => {
     );
     return next(error);
   }
-  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
+  res.json({ loans: loans.map((loan) => loan.toObject({ getters: true })) });
 };
 
 const updateStatus = async (req, res, next) => {
@@ -117,7 +117,34 @@ const getUserLoanId = async (req, res, next) => {
 
 };
 
+const getUserLoanRequests =  async (req, res, next) => {
+  const userId = req.params.id;
+
+  if(req.method === 'OPTIONS') {
+     return res.status(200).json(({ body: "OK" })) 
+    }
+
+  let retrievedLoanRequests;
+  try {
+    retrievedLoanRequests = await Loan.find({}, "-__v").where('userId').equals(userId).sort({'created_at' : -1});
+
+  } catch (err) {
+    const error = new ErrorMsg(
+      'Fetching user by id failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+
+
+
+  res.json({ retrievedLoanRequests: retrievedLoanRequests.map(loan => loan.toObject({ getters: true }))});
+
+};
+
 exports.loanRequest = loanRequest;
 exports.getAllLoanRequest = getAllLoanRequest;
 exports.updateStatus = updateStatus;
 exports.getUserLoanId = getUserLoanId;
+exports.getUserLoanRequests = getUserLoanRequests;
+

@@ -13,4 +13,6 @@ router.patch("/loanrequests/:rid", Auth.verifyUserToken, Auth.IsAdmin, LoanContr
 
 router.get("/loanrequests/:id/status", LoanControllers.getUserLoanId);
 
+router.get("/:uid/loanrequests", Auth.verifyUserToken, Auth.IsUserOrAdmin, LoanControllers.getUserLoanRequests);
+
 module.exports = router;

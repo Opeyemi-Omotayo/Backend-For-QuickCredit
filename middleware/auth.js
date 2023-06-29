@@ -36,6 +36,14 @@ const IsAdmin = async (req, res, next) => {
     return res.status(401).send("Unauthorized!");
 }
 
+const IsUserOrAdmin = async (req, res, next) => {
+    if (req.user.role === "customer" || req.user.role === 'admin') {
+       return next();
+    }
+    return res.status(401).send("Unauthorized!");
+}
+
 exports.verifyUserToken = verifyUserToken;
 exports.IsUser = IsUser;
 exports.IsAdmin = IsAdmin;
+exports.IsUserOrAdmin = IsUserOrAdmin;
