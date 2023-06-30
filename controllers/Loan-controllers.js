@@ -113,7 +113,6 @@ const getUserLoanId = async (req, res, next) => {
 
 
   res.json({ status : retrievedLoanRequest.status});
-
 };
 
 const getUserLoanRequests =  async (req, res, next) => {
