@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
-  res.setHeader('Access-Control-Allow-Methods', 'OPTION, GET, POST, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTION, GET, PUT, POST, PATCH, DELETE');
   // if (req.method === "OPTIONS") {
   //   return res.sendStatus(200);
   // }
