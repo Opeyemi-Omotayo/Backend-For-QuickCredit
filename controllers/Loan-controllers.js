@@ -116,7 +116,7 @@ const getUserLoanId = async (req, res, next) => {
 };
 
 const getUserLoanRequests =  async (req, res, next) => {
-  const userId = req.params.id;
+  const userId = req.params.uid;
 
   if(req.method === 'OPTIONS') {
      return res.status(200).json(({ body: "OK" })) 
