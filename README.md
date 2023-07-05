@@ -8,6 +8,7 @@ This is the backend for Quick Credit,an app that allows users to take loan.It wa
 ## Technologies used
 
 - Express.js
+- MongoDB
 
 
 ## Production
